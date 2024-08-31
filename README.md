@@ -36,4 +36,4 @@ Sigue estos pasos para instalar y ejecutar el proyecto en tu entorno local:
 1. Clona el repositorio:
 
    ```bash
-   git clone https://github.com/tu-usuario/recomendador-productos.git
+   git clone https://github.com/AmiraMandi/Prueba-t-cnica-LIS
