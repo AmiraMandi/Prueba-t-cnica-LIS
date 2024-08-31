@@ -108,7 +108,7 @@ const Step4 = () => {
           <List>
             <ListItem>
               <TextField
-                label={t('filters.maxPrice')} // Traducción del label
+                label={t('filters.maxPrice')} 
                 type="number"
                 name="price"
                 value={filters.price}
@@ -125,7 +125,7 @@ const Step4 = () => {
                     onChange={handleFilterChange}
                   />
                 }
-                label={t('filters.freeShipping')} // Traducción del label
+                label={t('filters.freeShipping')} 
               />
             </ListItem>
             <Divider />

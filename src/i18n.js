@@ -1,8 +1,7 @@
-// src/i18n.js
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
-// Definir traducciones para cada idioma
+
 const resources = {
   en: {
     translation: {
@@ -40,7 +39,7 @@ const resources = {
         plateado: 'Silver',
         azul: 'Blue',
         oro_rosa: 'Rose Gold',
-        // Añade más traducciones de colores si es necesario
+       
       },
     },
   },
@@ -80,7 +79,7 @@ const resources = {
         plateado: 'Plateado',
         azul: 'Azul',
         oro_rosa: 'Oro Rosa',
-        // Asegúrate de que los nombres coincidan con los devueltos por la API
+       
       },
     },
   },
@@ -88,10 +87,10 @@ const resources = {
 
 i18n.use(initReactI18next).init({
   resources,
-  lng: 'es', // Idioma inicial
-  fallbackLng: 'es', // Idioma de respaldo
+  lng: 'es', 
+  fallbackLng: 'es', 
   interpolation: {
-    escapeValue: false, // React ya protege de XSS
+    escapeValue: false, 
   },
 });
 

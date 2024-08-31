@@ -1,4 +1,3 @@
-// src/components/LanguageSwitcher.js
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { IconButton, Menu, MenuItem } from '@mui/material';

@@ -1,10 +1,9 @@
-// src/pages/Step1.js
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getCategories } from '../services/api';
 import { Container, Typography, Button, Card, CardContent, Grid } from '@mui/material';
 import CategoryIcon from '@mui/icons-material/Category';
-import LanguageSwitcher from '../components/LanguageSwitcher'; // Importa el selector de idioma
+import LanguageSwitcher from '../components/LanguageSwitcher'; 
 import { useTranslation } from 'react-i18next';
 
 const Step1 = () => {
@@ -13,8 +12,8 @@ const Step1 = () => {
   const { t, i18n } = useTranslation();
 
   useEffect(() => {
-    // Establecer el idioma al cargar según lo guardado en localStorage
-    const savedLanguage = localStorage.getItem('language') || 'es';  // Idioma por defecto: español
+    
+    const savedLanguage = localStorage.getItem('language') || 'es'; 
     i18n.changeLanguage(savedLanguage);
 
     const fetchCategories = async () => {

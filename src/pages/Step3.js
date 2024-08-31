@@ -1,4 +1,3 @@
-// src/pages/Step3.js
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getColors } from '../services/api';
@@ -12,7 +11,7 @@ const Step3 = () => {
 
   useEffect(() => {
     const savedLanguage = localStorage.getItem('language') || 'es';
-    i18n.changeLanguage(savedLanguage);  // Aplicar el idioma guardado
+    i18n.changeLanguage(savedLanguage); 
 
     const selectedSubcategory = JSON.parse(localStorage.getItem('selectedSubcategory'));
     if (!selectedSubcategory) {
