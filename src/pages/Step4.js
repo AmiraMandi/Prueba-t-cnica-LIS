@@ -1,4 +1,3 @@
-// src/pages/Step4.js
 import React, { useEffect, useState } from 'react';
 import { getProducts } from '../services/api';
 import {
@@ -14,13 +13,23 @@ import {
   FormControlLabel,
   Select,
   MenuItem,
+  Grid,
+  Drawer,
+  Toolbar,
+  List,
+  ListItem,
+  Divider,
+  Box,
 } from '@mui/material';
-import Grid2 from '@mui/material/Grid2';
+import { useTranslation } from 'react-i18next';
+
+const getRandomImage = () => `https://picsum.photos/300/200?random=${Math.floor(Math.random() * 100)}`;
 
 const Step4 = () => {
   const [products, setProducts] = useState([]);
   const [filters, setFilters] = useState({ price: '', freeShipping: false });
   const [sortOption, setSortOption] = useState('');
+  const { t } = useTranslation(); // Importa la función de traducción
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -84,73 +93,111 @@ const Step4 = () => {
   );
 
   return (
-    <Container maxWidth="md" sx={{ mt: 4 }}>
-      <Typography variant="h4" gutterBottom>
-        Productos Recomendados
-      </Typography>
-      <Grid2 container spacing={2}>
-        <Grid2 item xs={12}>
-          <TextField
-            label="Precio Máximo"
-            type="number"
-            name="price"
-            value={filters.price}
-            onChange={handleFilterChange}
-            fullWidth
-            sx={{ mb: 2 }}
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                name="freeShipping"
-                checked={filters.freeShipping}
+    <Container disableGutters maxWidth="lg" sx={{ pt: 8, pb: 6, display: 'flex' }}>
+      {/* Barra lateral de filtros */}
+      <Drawer
+        variant="permanent"
+        sx={{
+          width: 240,
+          flexShrink: 0,
+          [`& .MuiDrawer-paper`]: { width: 240, boxSizing: 'border-box' },
+        }}
+      >
+        <Toolbar />
+        <Box sx={{ overflow: 'auto', mt: 2 }}>
+          <List>
+            <ListItem>
+              <TextField
+                label={t('filters.maxPrice')} // Traducción del label
+                type="number"
+                name="price"
+                value={filters.price}
                 onChange={handleFilterChange}
+                fullWidth
               />
-            }
-            label="Envío Gratuito"
-          />
-          <Select
-            value={sortOption}
-            onChange={handleSortChange}
-            displayEmpty
-            fullWidth
-            sx={{ mt: 2, mb: 2 }}
-          >
-            <MenuItem value="" disabled>
-              Ordenar por...
-            </MenuItem>
-            <MenuItem value="priceAsc">Precio Ascendente</MenuItem>
-            <MenuItem value="priceDesc">Precio Descendente</MenuItem>
-            <MenuItem value="rating">Valoración</MenuItem>
-          </Select>
-        </Grid2>
-        {filteredAndSortedProducts.map((product) => (
-          <Grid2 item xs={12} sm={6} md={4} key={product.id}>
-            <Card>
-              <CardMedia
-                component="img"
-                height="140"
-                image="https://via.placeholder.com/300" // Imagen placeholder, cámbiala si lo deseas
-                alt={product.name}
+            </ListItem>
+            <ListItem>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    name="freeShipping"
+                    checked={filters.freeShipping}
+                    onChange={handleFilterChange}
+                  />
+                }
+                label={t('filters.freeShipping')} // Traducción del label
               />
-              <CardContent>
-                <Typography variant="h6">{product.name}</Typography>
-                <Typography>Precio: ${product.price}</Typography>
-                <Typography>
-                  Envío Gratuito: {product.is_free_shipping ? 'Sí' : 'No'}
-                </Typography>
-                <Typography>Valoración: {product.average_rating}</Typography>
-                <Typography>Stock: {product.stock_quantity}</Typography>
-              </CardContent>
-              <CardActions>
-                <Button size="small" color="primary">
-                  Ver Detalles
-                </Button>
-              </CardActions>
-            </Card>
-          </Grid2>
-        ))}
-      </Grid2>
+            </ListItem>
+            <Divider />
+            <ListItem>
+              <Select
+                value={sortOption}
+                onChange={handleSortChange}
+                displayEmpty
+                fullWidth
+              >
+                <MenuItem value="" disabled>
+                  {t('filters.sortBy')} {/* Traducción del texto */}
+                </MenuItem>
+                <MenuItem value="priceAsc">{t('filters.priceAsc')}</MenuItem>
+                <MenuItem value="priceDesc">{t('filters.priceDesc')}</MenuItem>
+                <MenuItem value="rating">{t('filters.rating')}</MenuItem>
+              </Select>
+            </ListItem>
+          </List>
+        </Box>
+      </Drawer>
+
+      {/* Contenedor de productos */}
+      <Container maxWidth="lg" component="main" sx={{ flexGrow: 1 }}>
+        <Typography component="h1" variant="h2" align="center" color="text.primary" gutterBottom>
+          {t('recommendedProducts')} {/* Traducción del título */}
+        </Typography>
+        <Grid container spacing={4} alignItems="flex-end">
+          {filteredAndSortedProducts.map((product) => (
+            <Grid
+              item
+              key={product.id}
+              xs={12}
+              sm={6}
+              md={4}
+            >
+              <Card>
+                <CardMedia
+                  component="img"
+                  height="180"
+                  image={getRandomImage()} // Usa una imagen aleatoria
+                  alt={product.name}
+                />
+                <CardContent>
+                  <Typography component="h2" variant="h6" color="text.primary" gutterBottom>
+                    {t(`subcategories.${product.name.toLowerCase().replace(/ /g, '_')}`, { defaultValue: product.name })}
+                  </Typography>
+                  <Typography component="h3" variant="h5" color="text.primary">
+                    {t('price')}: ${product.price}
+                  </Typography>
+                  <ul>
+                    <Typography component="li" variant="subtitle2" align="center">
+                      {t('stock')}: {product.stock_quantity}
+                    </Typography>
+                    <Typography component="li" variant="subtitle2" align="center">
+                      {t('rating')}: {product.average_rating}
+                    </Typography>
+                    <Typography component="li" variant="subtitle2" align="center">
+                      {t('freeShipping')}: {product.is_free_shipping ? t('yes') : t('no')}
+                    </Typography>
+                  </ul>
+                </CardContent>
+                <CardActions>
+                  <Button fullWidth variant="contained" color="primary">
+                    {t('select')}
+                  </Button>
+                </CardActions>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      </Container>
     </Container>
   );
 };

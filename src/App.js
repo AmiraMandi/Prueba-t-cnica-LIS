@@ -1,14 +1,15 @@
-// src/App.js
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Step1 from './pages/Step1';
 import Step2 from './pages/Step2';
 import Step3 from './pages/Step3';
 import Step4 from './pages/Step4';
+import LanguageSwitcher from './components/LanguageSwitcher'; 
 
-function App() {
+const App = () => {
   return (
     <Router>
+      <LanguageSwitcher /> 
       <Routes>
         <Route path="/" element={<Step1 />} />
         <Route path="/step2" element={<Step2 />} />
@@ -17,6 +18,6 @@ function App() {
       </Routes>
     </Router>
   );
-}
+};
 
 export default App;

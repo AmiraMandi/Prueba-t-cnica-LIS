@@ -1,8 +1,7 @@
-// src/services/api.js
 const API_KEY = '65ea931b-a185-40f4-8c3c-033954e09705';
 const BASE_URL = 'https://technicalproof.lisdatasolutions.com/api/v1/recommender';
 
-// Función para obtener todas las categorías
+
 export const getCategories = async () => {
   try {
     const response = await fetch(`${BASE_URL}/category`, {
@@ -25,7 +24,7 @@ export const getCategories = async () => {
   }
 };
 
-// Función para obtener todas las subcategorías por ID de categoría
+
 export const getSubcategories = async (categoryId) => {
   try {
     const response = await fetch(`${BASE_URL}/category/${categoryId}/subcategory`, {
@@ -48,7 +47,7 @@ export const getSubcategories = async (categoryId) => {
   }
 };
 
-// Función para obtener todos los colores por ID de subcategoría
+
 export const getColors = async (subcategoryId) => {
   try {
     const response = await fetch(`${BASE_URL}/subcategory/${subcategoryId}/color`, {
@@ -71,7 +70,7 @@ export const getColors = async (subcategoryId) => {
   }
 };
 
-// Función para obtener productos filtrados
+
 export const getProducts = async (filters) => {
   const { category, subcategory, color } = filters;
 

@@ -2,16 +2,19 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getColors } from '../services/api';
-import { Container, Typography, Button, Card, CardContent, CardMedia } from '@mui/material';
-import PaletteIcon from '@mui/icons-material/Palette';
-import Grid2 from '@mui/material/Grid2';
+import { Container, Typography, Button, Grid, Card, CardContent } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 const Step3 = () => {
   const [colors, setColors] = useState([]);
-  const selectedSubcategory = JSON.parse(localStorage.getItem('selectedSubcategory'));
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
+    const savedLanguage = localStorage.getItem('language') || 'es';
+    i18n.changeLanguage(savedLanguage);  // Aplicar el idioma guardado
+
+    const selectedSubcategory = JSON.parse(localStorage.getItem('selectedSubcategory'));
     if (!selectedSubcategory) {
       navigate('/step2');
       return;
@@ -27,46 +30,39 @@ const Step3 = () => {
     };
 
     fetchColors();
-  }, [selectedSubcategory, navigate]);
+  }, [i18n, navigate]);
 
   const handleColorSelect = (color) => {
-    localStorage.setItem('selectedColor', JSON.stringify({ id: color.id }));
+    localStorage.setItem('selectedColor', JSON.stringify(color));
     navigate('/step4');
   };
 
   return (
     <Container maxWidth="md" sx={{ mt: 4 }}>
       <Typography variant="h4" gutterBottom>
-        Selecciona un Color
+        {t('selectColor')}
       </Typography>
-      <Grid2 container spacing={3}>
+      <Grid container spacing={3}>
         {colors.map((color) => (
-          <Grid2 item xs={12} sm={6} md={4} key={color.id}>
-            <Card sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-              <CardMedia
-                component="img"
-                height="140"
-                image="https://via.placeholder.com/300" // Imagen placeholder, cámbiala si lo deseas
-                alt={color.name}
-              />
+          <Grid item xs={12} sm={6} md={4} key={color.id}>
+            <Card>
               <CardContent>
                 <Typography variant="h6" gutterBottom>
-                  {color.name}
+                  {t(`colors.${color.name.toLowerCase()}`, { defaultValue: color.name })}
                 </Typography>
                 <Button
                   variant="contained"
-                  startIcon={<PaletteIcon />}
                   fullWidth
                   onClick={() => handleColorSelect(color)}
                   sx={{ mt: 2 }}
                 >
-                  Seleccionar
+                  {t('select')}
                 </Button>
               </CardContent>
             </Card>
-          </Grid2>
+          </Grid>
         ))}
-      </Grid2>
+      </Grid>
     </Container>
   );
 };
